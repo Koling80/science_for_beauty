@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': get_secret('DB_NAME'),
         'USER': get_secret('DB_USER_NAME'),
         'PASSWORD': get_secret('DB_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': get_secret('HOST'),
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
     }
