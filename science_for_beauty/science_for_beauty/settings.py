@@ -103,6 +103,10 @@ DATABASES = {
         'HOST': get_secret('HOST'),
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
+        'OPTIONS': {
+            'ssl': {'ssl-ca': '/etc/ssl/certs/ca-certificates.crt'}
+        },
+
     }
 }
 
