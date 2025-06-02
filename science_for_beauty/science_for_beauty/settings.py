@@ -11,9 +11,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os, inspect
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+# Load secrets.json
+try:
+    with open(os.path.join(BASE_DIR, '../secrets.json')) as f:
+        secrets = json.load(f)
+except FileNotFoundError:
+    raise Exception("secrets.json file is missing! Please create one.")
+
+# Function to fetch secret values safely
+def get_secret(key, default=None):
+    return secrets.get(key, default)
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sciencebeauty_app',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +91,13 @@ WSGI_APPLICATION = 'science_for_beauty.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_secret('DB_NAME'),
+        'USER': get_secret('DB_USER_NAME'),
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'ATOMIC_REQUESTS': True,
     }
 }
 
