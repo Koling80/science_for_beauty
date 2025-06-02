@@ -24,4 +24,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Run the app (example)
-CMD ["gunicorn", "science_for_beuty.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "science_for_beauty.wsgi:application", "--bind", "0.0.0.0:8080"]
