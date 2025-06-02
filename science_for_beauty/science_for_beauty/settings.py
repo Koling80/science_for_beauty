@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os, inspect
 import json
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,7 +106,7 @@ DATABASES = {
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
         'OPTIONS': {
-            'ssl': {}
+            'ssl': {'ssl-ca': '/etc/ssl/certs/ca-certificates.crt'}
         },
 
     }
