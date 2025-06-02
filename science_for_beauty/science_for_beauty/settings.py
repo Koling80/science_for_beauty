@@ -104,7 +104,7 @@ DATABASES = {
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
         'OPTIONS': {
-            'ssl_disabled': False
+            'ssl': {}
         },
 
     }
