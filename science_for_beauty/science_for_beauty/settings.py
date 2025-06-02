@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load secrets.json
 try:
-    with open(os.path.join(BASE_DIR, 'secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, '../secrets.json')) as f:
         secrets = json.load(f)
 except FileNotFoundError:
     raise Exception("secrets.json file is missing! Please create one.")
@@ -29,6 +29,11 @@ except FileNotFoundError:
 # Function to fetch secret values safely
 def get_secret(key, default=None):
     return secrets.get(key, default)
+
+# Safely get values
+EXTERNAL_URL = os.getenv("EXTERNAL_URL") or secrets.get("EXTERNAL_URL", "")
+if EXTERNAL_URL and EXTERNAL_URL.startswith("http"):
+    ...
 
 
 # Quick-start development settings - unsuitable for production
