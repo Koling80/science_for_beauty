@@ -104,7 +104,7 @@ DATABASES = {
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
         'OPTIONS': {
-            'ssl': {'ssl-ca': '/etc/ssl/certs/ca-certificates.crt'}
+            'ssl_disabled': False
         },
 
     }
