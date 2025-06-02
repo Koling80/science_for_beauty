@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load secrets.json
 try:
-    with open(os.path.join(BASE_DIR, '../secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, 'secrets.json')) as f:
         secrets = json.load(f)
 except FileNotFoundError:
     raise Exception("secrets.json file is missing! Please create one.")
@@ -40,7 +40,7 @@ SECRET_KEY = 'django-insecure-)e$tf-#1tbdnr3+!iy*0wp0a_(!v)ww++*+6heu0pfpe2zq$j1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -136,9 +136,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
