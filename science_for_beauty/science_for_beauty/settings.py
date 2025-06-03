@@ -11,9 +11,31 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os, inspect
+import json
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+# Load secrets.json
+try:
+    with open(os.path.join(BASE_DIR, '../secrets.json')) as f:
+        secrets = json.load(f)
+except FileNotFoundError:
+    raise Exception("secrets.json file is missing! Please create one.")
+
+# Function to fetch secret values safely
+def get_secret(key, default=None):
+    return secrets.get(key, default)
+
+# Safely get values
+EXTERNAL_URL = os.getenv("EXTERNAL_URL") or secrets.get("EXTERNAL_URL", "")
+if EXTERNAL_URL and EXTERNAL_URL.startswith("http"):
+    ...
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +47,7 @@ SECRET_KEY = 'django-insecure-)e$tf-#1tbdnr3+!iy*0wp0a_(!v)ww++*+6heu0pfpe2zq$j1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'sfb--since-for-beauty--glj2l5bkyjb5.code.run']
 
 
 # Application definition
@@ -37,6 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sciencebeauty_app',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +98,17 @@ WSGI_APPLICATION = 'science_for_beauty.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_secret('DB_NAME'),
+        'USER': get_secret('DB_USER_NAME'),
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': get_secret('HOST'),
+        'PORT': '3306',
+        'ATOMIC_REQUESTS': True,
+        'OPTIONS': {
+            'ssl': {'ssl-ca': '/etc/ssl/certs/ca-certificates.crt'}
+        },
+
     }
 }
 
@@ -115,9 +147,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
