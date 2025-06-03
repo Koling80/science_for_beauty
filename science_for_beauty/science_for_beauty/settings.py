@@ -47,7 +47,7 @@ SECRET_KEY = 'django-insecure-)e$tf-#1tbdnr3+!iy*0wp0a_(!v)ww++*+6heu0pfpe2zq$j1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'sfb--since-for-beauty--glj2l5bkyjb5.code.run']
+ALLOWED_HOSTS = ['localhost', 'sfb--since-for-beauty--glj2l5bkyjb5.code.run', 'science-for-beauty-795545b646-9dz26']
 
 
 # Application definition
