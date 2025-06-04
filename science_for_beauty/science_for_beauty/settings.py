@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load secrets.json
 try:
-    with open(os.path.join(BASE_DIR, '../secrets.json')) as f:
+    with open(os.path.join(BASE_DIR, 'secrets.json')) as f:
         secrets = json.load(f)
 except FileNotFoundError:
     raise Exception("secrets.json file is missing! Please create one.")
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sciencebeauty_app',
+    'members',
 ]
 
 MIDDLEWARE = [
@@ -154,5 +155,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use SMTP in production
+
 
 
