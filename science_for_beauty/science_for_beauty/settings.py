@@ -15,27 +15,22 @@ import os, inspect
 import json
 import pymysql
 pymysql.install_as_MySQLdb()
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# Helper function to safely get environment variables
+def get_env(key, default=None):
+    value = os.getenv(key, default)
+    if isinstance(default, bool):
+        return value.lower() == "true" if value is not None else default
+    return value
 
-# Load secrets.json
-try:
-    with open(os.path.join(BASE_DIR, 'secrets.json')) as f:
-        secrets = json.load(f)
-except FileNotFoundError:
-    raise Exception("secrets.json file is missing! Please create one.")
 
-# Function to fetch secret values safely
-def get_secret(key, default=None):
-    return secrets.get(key, default)
 
-# Safely get values
-EXTERNAL_URL = os.getenv("EXTERNAL_URL") or secrets.get("EXTERNAL_URL", "")
-if EXTERNAL_URL and EXTERNAL_URL.startswith("http"):
-    ...
 
 
 # Quick-start development settings - unsuitable for production
@@ -100,10 +95,10 @@ WSGI_APPLICATION = 'science_for_beauty.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': get_secret('DB_NAME'),
-        'USER': get_secret('DB_USER_NAME'),
-        'PASSWORD': get_secret('DB_PASSWORD'),
-        'HOST': get_secret('HOST'),
+        'NAME': get_env('DB_NAME'),
+        'USER': get_env('DB_USER_NAME'),
+        'PASSWORD': get_env('DB_PASSWORD'),
+        'HOST': get_env('HOST'),
         'PORT': '3306',
         'ATOMIC_REQUESTS': True,
         'OPTIONS': {
